@@ -50,7 +50,7 @@ python duel_dqn.py
 
 
 ## Test
-* Test and render my agent.
+* Test and render trained agent.
 * To test our agent, we need 'q_target.pth' that generated at the training step.
 ```
 python test.py
