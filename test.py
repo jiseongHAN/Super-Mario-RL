@@ -50,33 +50,39 @@ def arange(s):
     ret = np.transpose(s, (2, 0, 1))
     return np.expand_dims(ret,0)
 
-n_frame = 4
-env = gym_super_mario_bros.make('SuperMarioBros-v0')
-env = JoypadSpace(env, COMPLEX_MOVEMENT)
-env = wrap_mario(env)
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-q = mlp(n_frame, env.action_space.n, device).to(device)
 
 
-# env = FrameStack(ScaledFloatFrame(WarpFrame(make_atari('BreakoutNoFrameskip-v0'))), n_frame)
-# env = wrap_deepmind(gym.make('Breakout-v0'))
-q.load_state_dict( torch.load('mario_q_target.pth'))
-total_score = 0.0
-done = False
-s = arange(env.reset())
-i = 0
-while not done:
-#     To save png. (server -> local)
-#     plt.imshow(env.render(mode='rgb_array'))
-#     plt.savefig('hahaha/'+str(i)+'.png') 
-#     plt.show()
-    env.render()
-    if device == 'cpu':
-        a = np.argmax(q(s).detach().numpy())
-    else:
-        a = np.argmax(q(s).cpu().detach().numpy())
-    s_prime, r, done, _ = env.step(a)
-    s_prime = arange(s_prime)
-    total_score += r
-    s = s_prime
-#     i+=1
+
+    n_frame = 4
+    env = gym_super_mario_bros.make('SuperMarioBros-v0')
+    env = JoypadSpace(env, COMPLEX_MOVEMENT)
+    env = wrap_mario(env)
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    q = mlp(n_frame, env.action_space.n, device).to(device)
+
+
+    # env = FrameStack(ScaledFloatFrame(WarpFrame(make_atari('BreakoutNoFrameskip-v0'))), n_frame)
+    # env = wrap_deepmind(gym.make('Breakout-v0'))
+    q.load_state_dict( torch.load('mario_q_target.pth'))
+    total_score = 0.0
+    done = False
+    s = arange(env.reset())
+    i = 0
+    while not done:
+    #     To save png. (server -> local)
+    #     plt.imshow(env.render(mode='rgb_array'))
+    #     plt.savefig('hahaha/'+str(i)+'.png') 
+    #     plt.show()
+        env.render()
+        if device == 'cpu':
+            a = np.argmax(q(s).detach().numpy())
+        else:
+            a = np.argmax(q(s).cpu().detach().numpy())
+        s_prime, r, done, _ = env.step(a)
+        s_prime = arange(s_prime)
+        total_score += r
+        s = s_prime
+    #     i+=1
+    
+    stage = env.unwrapped._stage
+    print("Total score : %f | stage : %d" % (total_score, stage))
