@@ -50,8 +50,7 @@ def arange(s):
     ret = np.transpose(s, (2, 0, 1))
     return np.expand_dims(ret,0)
 
-
-
+if __name__ ==  "__main__":
 
     n_frame = 4
     env = gym_super_mario_bros.make('SuperMarioBros-v0')
@@ -60,9 +59,6 @@ def arange(s):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     q = mlp(n_frame, env.action_space.n, device).to(device)
 
-
-    # env = FrameStack(ScaledFloatFrame(WarpFrame(make_atari('BreakoutNoFrameskip-v0'))), n_frame)
-    # env = wrap_deepmind(gym.make('Breakout-v0'))
     q.load_state_dict( torch.load('mario_q_target.pth'))
     total_score = 0.0
     done = False
