@@ -104,7 +104,7 @@ def copy_weights(q,q_target):
 
 
 
-def main(env, q,q_target, optimizer ,device, i):
+def main(env, q,q_target, optimizer ,device):
     t = 0
     gamma = 0.99
     batch_size = 256
@@ -146,12 +146,13 @@ def main(env, q,q_target, optimizer ,device, i):
                 copy_weights(q,q_target)
                 torch.save(q.state_dict(), 'mario_q.pth')
                 torch.save(q_target.state_dict(), 'mario_q_target.pth')
-                pickle.dump(score_lst, open('score.p', 'wb'))
-                total_score = 0
-                loss = 0.0
-                if i == 1:
-                    print("%s |Epoch : %d | score : %f | loss : %.2f | stage : %d" % (device, k, total_score / update_interval, loss / update_interval, stage))
 
+        if k % update_interval == 0:
+            print("%s |Epoch : %d | score : %f | loss : %.2f | stage : %d" % (device, k, total_score / update_interval, loss / update_interval, stage))
+            score_lst.append(total_score / update_interval)
+            total_score = 0
+            loss = 0.0
+            pickle.dump(score_lst, open('score.p', 'wb'))
 
 
 
@@ -165,7 +166,7 @@ if __name__ ==  "__main__":
     q_target = mlp(n_frame,env.action_space.n,device).to(device)
     optimizer = optim.Adam(q.parameters(),lr=0.0001)
     print(device)
-    main(env, q, q_target, optimizer, device, 1)
+    main(env, q, q_target, optimizer, device)
     # q.share_memory()  # Required for 'fork' method to work
     # q_target.share_memory()
     # processes = []
