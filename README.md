@@ -1,7 +1,6 @@
-# Super-Mario-RL
+# :mushroom: Super-Mario-RL 
 
-This is a private project to make Super Mairo Agent. :mushroom:
-
+This is a private project to make Super Mairo Agent.
 
 It consists of training an agent to clear Super Mario Bros with deep reinforcement learning methods.
 
