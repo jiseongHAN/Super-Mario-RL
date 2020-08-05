@@ -44,7 +44,7 @@ cd Super-Mario-RL
 python duel_dqn.py
 ```
 
-### Return
+### Result
 * score.p : save total score every 50 episode
 * *.pth : save weight of q, q_target every 50 training
 
