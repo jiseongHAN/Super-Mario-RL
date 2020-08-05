@@ -66,9 +66,11 @@ done = False
 s = arange(env.reset())
 i = 0
 while not done:
-    plt.imshow(env.render(mode='rgb_array'))
-    plt.savefig('hahaha/'+str(i)+'.png')
-    plt.show()
+#     To save png. (server -> local)
+#     plt.imshow(env.render(mode='rgb_array'))
+#     plt.savefig('hahaha/'+str(i)+'.png') 
+#     plt.show()
+    env.render()
     if device == 'cpu':
         a = np.argmax(q(s).detach().numpy())
     else:
@@ -77,4 +79,4 @@ while not done:
     s_prime = arange(s_prime)
     total_score += r
     s = s_prime
-    i+=1
+#     i+=1
