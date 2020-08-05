@@ -1,3 +1,3 @@
 # Super-Mario-RL
 
-![mario1.gif]
+![mairo](/mario1.gif)
