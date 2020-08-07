@@ -5,7 +5,11 @@ This is a private project to make Super Mairo Agent.
 It consists of training an agent to clear Super Mario Bros with deep reinforcement learning methods.
 
 Here is my super mario agent with dueling network. ( trained 7,000 epoch )
-![mairo](/mario1.gif)
+
+<p float="center">
+  <img src="/mario1.gif" width="450" />
+  <img src="/mario14.gif" width="450" /> 
+</p>
 
 # Get started
 
