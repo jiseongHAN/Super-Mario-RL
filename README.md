@@ -7,8 +7,8 @@ It consists of training an agent to clear Super Mario Bros with deep reinforceme
 Here are my super mario agents with dueling network. ( trained 7,000 epoch )
 
 <p float="center">
-  <img src="/mario1.gif" width="450" />
-  <img src="/mario14.gif" width="450" /> 
+  <img src="/mario1.gif" width="350" />
+  <img src="/mario14.gif" width="350" /> 
 </p>
 
 # Get started
