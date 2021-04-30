@@ -15,7 +15,7 @@ from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
 initialize replay memory D with N
 '''
 
-def arange(s):
+def arrange(s):
     if not type(s) == 'numpy.ndarray':
         s = np.array(s)
     assert len(s.shape) == 3
@@ -121,7 +121,7 @@ def main(env, q,q_target, optimizer ,device):
     loss = 0.0
 
     for k in range(1000000):
-        s = arange(env.reset())
+        s = arrange(env.reset())
         done = False
 
         while not done:
@@ -133,7 +133,7 @@ def main(env, q,q_target, optimizer ,device):
                 else:
                     a = np.argmax(q(s).cpu().detach().numpy())
             s_prime, r, done, _ = env.step(a)
-            s_prime = arange(s_prime)
+            s_prime = arrange(s_prime)
             total_score += r
             r = np.sign(r)* (np.sqrt(abs(r)+1)-1) + 0.001 * r
             memory.push((s,float(r),int(a),s_prime,int(1-done)))
