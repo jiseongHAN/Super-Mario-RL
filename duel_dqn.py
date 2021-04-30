@@ -38,9 +38,9 @@ class replay_memory(object):
         return len(self.memory)
 
 
-class mlp(nn.Module):
+class model(nn.Module):
     def __init__(self,n_frame,n_action, device):
-        super(mlp,self).__init__()
+        super(model,self).__init__()
         self.layer1 = nn.Conv2d(n_frame, 32, 8, 4)
         self.layer2 = nn.Conv2d(32,64, 3,1)
         self.fc = nn.Linear(20736,512)
@@ -162,8 +162,8 @@ if __name__ ==  "__main__":
     env = JoypadSpace(env, COMPLEX_MOVEMENT)
     env = wrap_mario(env)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    q = mlp(n_frame,env.action_space.n,device).to(device)
-    q_target = mlp(n_frame,env.action_space.n,device).to(device)
+    q = model(n_frame,env.action_space.n,device).to(device)
+    q_target = model(n_frame,env.action_space.n,device).to(device)
     optimizer = optim.Adam(q.parameters(),lr=0.0001)
     print(device)
     main(env, q, q_target, optimizer, device)
