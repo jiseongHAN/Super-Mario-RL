@@ -11,9 +11,6 @@ import pickle
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
 from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
-'''
-initialize replay memory D with N
-'''
 
 def arrange(s):
     if not type(s) == 'numpy.ndarray':
@@ -22,10 +19,10 @@ def arrange(s):
     ret = np.transpose(s, (2, 0, 1))
     return np.expand_dims(ret,0)
 
+
 class replay_memory(object):
     def __init__(self,N):
         self.memory = deque(maxlen=N)
-
 
     def push(self,transition):
         self.memory.append(transition)
@@ -79,7 +76,6 @@ def init_weights(m):
 
 
 def train(q, q_target, memory, batch_size, gamma, optimizer, device):
-    # ce = nn.MSELoss()
     s,r,a,s_prime,done = list(map(list, zip(*memory.sample(batch_size))))
     s = np.array(s).squeeze()
     s_prime = np.array(s_prime).squeeze()
@@ -89,9 +85,9 @@ def train(q, q_target, memory, batch_size, gamma, optimizer, device):
     with torch.no_grad():
         y = r + gamma*q_target(s_prime).gather(1,a_max)*done
     a = torch.tensor(a).unsqueeze(-1).to(device)
-    qq = torch.gather(q(s), dim=1, index=a.view(-1, 1).long())
+    q_value = torch.gather(q(s), dim=1, index=a.view(-1, 1).long())
 
-    loss = F.smooth_l1_loss(qq,y).mean()
+    loss = F.smooth_l1_loss(q_value,y).mean()
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
@@ -108,8 +104,6 @@ def main(env, q,q_target, optimizer ,device):
     t = 0
     gamma = 0.99
     batch_size = 256
-    # env = FrameStack(ScaledFloatFrame(WarpFrame(make_atari('BreakoutNoFrameskip-v0'))), n_frame)
-    # env = wrap_deepmind(gym.make('Breakout-v0'))
 
     N = 50000
     eps = 0.001
@@ -167,17 +161,3 @@ if __name__ ==  "__main__":
     optimizer = optim.Adam(q.parameters(),lr=0.0001)
     print(device)
     main(env, q, q_target, optimizer, device)
-    # q.share_memory()  # Required for 'fork' method to work
-    # q_target.share_memory()
-    # processes = []
-    # mp.set_start_method('spawn')
-    #
-    # for i in range(4):  # No. of processes
-    #     p = mp.Process(target=main, args=(env, q,q_target,optimizer, device,i))
-    #     p.start()
-    #     processes.append(p)
-    #
-    # for p in processes: p.join()
-
-
-
