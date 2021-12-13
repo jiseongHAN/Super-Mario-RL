@@ -5,7 +5,6 @@ import torch.nn as nn
 from collections import deque
 import torch.optim as optim
 import random
-import torch.multiprocessing as mp
 import torch.nn.functional as F
 import pickle
 from nes_py.wrappers import JoypadSpace
