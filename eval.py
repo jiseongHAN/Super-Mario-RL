@@ -4,11 +4,13 @@ import torch.nn as nn
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
 from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
-import matplotlib.pyplot as plt
+import sys
+import time
 
-class mlp(nn.Module):
+# Same as duel_dqn.mlp (you can make model.py to avoid duplication.)
+class model(nn.Module):
     def __init__(self,n_frame,n_action, device):
-        super(mlp,self).__init__()
+        super(model, self).__init__()
         self.layer1 = nn.Conv2d(n_frame, 32, 8, 4)
         self.layer2 = nn.Conv2d(32,64, 3,1)
         self.fc = nn.Linear(20736,512)
@@ -51,24 +53,21 @@ def arange(s):
     return np.expand_dims(ret,0)
 
 if __name__ ==  "__main__":
-
+    ckpt_path = sys.argv[1] if len(sys.argv) > 1 else 'mario_q_target.pth'
+    print(f"Load ckpt from {ckpt_path}")
     n_frame = 4
     env = gym_super_mario_bros.make('SuperMarioBros-v0')
     env = JoypadSpace(env, COMPLEX_MOVEMENT)
     env = wrap_mario(env)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    q = mlp(n_frame, env.action_space.n, device).to(device)
+    q = model(n_frame, env.action_space.n, device).to(device)
 
-    q.load_state_dict( torch.load('mario_q_target.pth'))
+    q.load_state_dict(torch.load(ckpt_path))
     total_score = 0.0
     done = False
     s = arange(env.reset())
     i = 0
     while not done:
-    #     To save png. (server -> local)
-    #     plt.imshow(env.render(mode='rgb_array'))
-    #     plt.savefig('hahaha/'+str(i)+'.png') 
-    #     plt.show()
         env.render()
         if device == 'cpu':
             a = np.argmax(q(s).detach().numpy())
@@ -78,7 +77,7 @@ if __name__ ==  "__main__":
         s_prime = arange(s_prime)
         total_score += r
         s = s_prime
-    #     i+=1
+        time.sleep(0.001)
     
     stage = env.unwrapped._stage
     print("Total score : %f | stage : %d" % (total_score, stage))
