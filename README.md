@@ -57,11 +57,15 @@ python duel_dqn.py
 * *.pth : save weight of q, q_target every 50 training
 
 
-## Test
+## Evaluate
 * Test and render trained agent.
 * To test our agent, we need 'q_target.pth' that generated at the training step.
 ```
-python test.py
+python eval.py
+```
+* Or you can use your own agent.
+```
+python eval.py your_own_agent.pth
 ```
 
 ## Reference
