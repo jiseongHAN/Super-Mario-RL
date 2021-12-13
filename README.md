@@ -14,9 +14,15 @@ Here are my super mario agents with dueling network. ( trained 7,000 epoch )
 # Get started
 
 ## Install Requirements
+'''
+pip install -r requirements.txt
+'''
+
+
+## Or Manually Install
 * Install [openAI gym](http://gym.openai.com/)
 ```
-pip install 'gym[all]'
+pip install 'gym'
 ```
 * Install [Pytorch](https://pytorch.org/)
 ```
