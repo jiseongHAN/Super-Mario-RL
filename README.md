@@ -13,6 +13,13 @@ Here are my super mario agents with dueling network. ( trained 7,000 epoch )
 
 # Get started
 
+## Cloning git
+
+```
+git clone https://github.com/jiseongHAN/Super-Mario-RL.git
+cd Super-Mario-RL
+```
+
 ## Install Requirements
 ```
 pip install -r requirements.txt
@@ -34,13 +41,6 @@ pip install nes-py
 * Install [gym-super-mario-bros](https://pypi.org/project/gym-super-mario-bros/)
 ```
 pip install gym-super-mario-bros
-```
-
-## Cloning git
-
-```
-git clone https://github.com/jiseongHAN/Super-Mario-RL.git
-cd Super-Mario-RL
 ```
 
 # Running
