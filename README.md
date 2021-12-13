@@ -58,6 +58,7 @@ python duel_dqn.py
 
 
 ## Evaluate
+* (Now, pre-trained agent has been corrupted😢)
 * Test and render trained agent.
 * To test our agent, we need 'q_target.pth' that generated at the training step.
 ```
