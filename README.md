@@ -58,3 +58,6 @@ python duel_dqn.py
 ```
 python test.py
 ```
+
+## Reference
+[Wang, Ziyu, et al. "Dueling network architectures for deep reinforcement learning." International conference on machine learning. PMLR, 2016.](https://arxiv.org/pdf/1511.06581.pdf)
