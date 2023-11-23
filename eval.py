@@ -38,8 +38,8 @@ class model(nn.Module):
         adv = self.q(x)
         v = self.v(x)
         q = v + (adv - 1/adv.shape[-1] * adv.max(-1,True)[0])
-
         return q
+    
 def init_weights(m):
     if type(m) == nn.Conv2d:
         torch.nn.init.xavier_uniform_(m.weight)
@@ -56,13 +56,13 @@ if __name__ ==  "__main__":
     ckpt_path = sys.argv[1] if len(sys.argv) > 1 else 'mario_q_target.pth'
     print(f"Load ckpt from {ckpt_path}")
     n_frame = 4
-    env = gym_super_mario_bros.make('SuperMarioBros-v0')
+    env = gym_super_mario_bros.make('SuperMarioBros-v3')
     env = JoypadSpace(env, COMPLEX_MOVEMENT)
     env = wrap_mario(env)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     q = model(n_frame, env.action_space.n, device).to(device)
 
-    q.load_state_dict(torch.load(ckpt_path))
+    q.load_state_dict(torch.load(ckpt_path, map_location=torch.device(device)))
     total_score = 0.0
     done = False
     s = arange(env.reset())
