@@ -99,7 +99,7 @@ def main(env, q, q_target, optimizer, device):
     gamma = 0.99
     batch_size = 256
 
-    N = 5000
+    N = 50000
     eps = 0.001
     memory = replay_memory(N)
     update_interval = 50
@@ -109,8 +109,7 @@ def main(env, q, q_target, optimizer, device):
     total_score = 0.0
     loss = 0.0
 
-    for k in range(5):
-        print("Episode ", k)
+    for k in range(1000000):
         s = arrange(env.reset())
         done = False
 
@@ -156,7 +155,7 @@ def main(env, q, q_target, optimizer, device):
 
 if __name__ == "__main__":
     n_frame = 4
-    env = gym_super_mario_bros.make("SuperMarioBros-v3")
+    env = gym_super_mario_bros.make("SuperMarioBros-v0")
     env = JoypadSpace(env, COMPLEX_MOVEMENT)
     env = wrap_mario(env)
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -164,5 +163,5 @@ if __name__ == "__main__":
     q_target = model(n_frame, env.action_space.n, device).to(device)
     optimizer = optim.Adam(q.parameters(), lr=0.0001)
     print(device)
-    
+
     main(env, q, q_target, optimizer, device)
