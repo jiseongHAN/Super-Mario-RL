@@ -10,6 +10,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
 from nes_py.wrappers import JoypadSpace
+import time
 
 from wrappers import *
 
@@ -108,6 +109,7 @@ def main(env, q, q_target, optimizer, device):
     score_lst = []
     total_score = 0.0
     loss = 0.0
+    start_time = time.perf_counter()
 
     for k in range(1000000):
         s = arrange(env.reset())
@@ -137,14 +139,16 @@ def main(env, q, q_target, optimizer, device):
                 torch.save(q_target.state_dict(), "mario_q_target.pth")
 
         if k % print_interval == 0:
+            time_spent, start_time = time.perf_counter() - start_time, time.perf_counter()
             print(
-                "%s |Epoch : %d | score : %f | loss : %.2f | stage : %d"
+                "%s |Epoch : %d | score : %f | loss : %.2f | stage : %d | time spent: %f"
                 % (
                     device,
                     k,
                     total_score / print_interval,
                     loss / print_interval,
                     stage,
+                    time_spent,
                 )
             )
             score_lst.append(total_score / print_interval)
@@ -158,7 +162,11 @@ if __name__ == "__main__":
     env = gym_super_mario_bros.make("SuperMarioBros-v0")
     env = JoypadSpace(env, COMPLEX_MOVEMENT)
     env = wrap_mario(env)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = 'cpu'
+    if torch.cuda.is_available():
+        device = 'cuda'
+    elif torch.backends.mps.is_available():
+        device = 'mps'
     q = model(n_frame, env.action_space.n, device).to(device)
     q_target = model(n_frame, env.action_space.n, device).to(device)
     optimizer = optim.Adam(q.parameters(), lr=0.0001)
