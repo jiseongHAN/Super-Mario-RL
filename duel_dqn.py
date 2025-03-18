@@ -60,7 +60,7 @@ class model(nn.Module):
         x = torch.relu(self.fc(x))
         adv = self.q(x)
         v = self.v(x)
-        q = v + (adv - 1 / adv.shape[-1] * adv.sum(-1))
+        q = v + (adv - 1 / adv.shape[-1] * adv.sum(-1, keepdim=True))
 
         return q
 
