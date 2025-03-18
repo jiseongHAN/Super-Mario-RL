@@ -60,7 +60,7 @@ class model(nn.Module):
         x = torch.relu(self.fc(x))
         adv = self.q(x)
         v = self.v(x)
-        q = v + (adv - 1 / adv.shape[-1] * adv.max(-1, True)[0])
+        q = v + (adv - 1 / adv.shape[-1] * adv.mean(-1)
 
         return q
 
