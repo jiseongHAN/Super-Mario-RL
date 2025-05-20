@@ -248,7 +248,7 @@ def train_ppo():
                 torch.save(model.state_dict(), "mario_1_1_clear.pt")
                 break
         if update > 0 and update % 50 == 0:
-            torch.save(model.state_dict(), "mario_1_1.pt")
+            torch.save(model.state_dict(), "mario_1_1_ppo.pt")
 
 
 if __name__ == "__main__":

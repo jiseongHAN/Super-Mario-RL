@@ -6,6 +6,8 @@ It consists of training an agent to clear Super Mario Bros with deep reinforceme
 
 Here are my super mario agents with dueling network. ( trained 7,000 epoch )
 
+**(25-05-20) SuperMario with PPO has been updated!**
+
 <p float="center">
   <img src="/mario1.gif" width="350" />
   <img src="/mario14.gif" width="350" /> 
@@ -52,6 +54,12 @@ pip install gym-super-mario-bros
 python duel_dqn.py
 ```
 
+* Train with PPO.
+
+```
+python ppo.py
+```
+
 ### Result
 * score.p : save total score every 50 episode
 * *.pth : save weight of q, q_target every 50 training
@@ -61,6 +69,7 @@ python duel_dqn.py
 * (Now, pre-trained agent has been corrupted😢)
 * Test and render trained agent.
 * To test our agent, we need 'q_target.pth' that generated at the training step.
+* (eval.py with PPO is not supported now)
 ```
 python eval.py
 ```
@@ -71,3 +80,6 @@ python eval.py your_own_agent.pth
 
 ## Reference
 [Wang, Ziyu, et al. "Dueling network architectures for deep reinforcement learning." International conference on machine learning. PMLR, 2016.](https://arxiv.org/pdf/1511.06581.pdf)
+
+[Schulman, J., Wolski, F., Dhariwal, P., Radford, A. & Klimov, O. Proximal policy optimization
+algorithms. arXiv preprint arXiv:1707.06347 (2017).](https://arxiv.org/pdf/1707.06347)
